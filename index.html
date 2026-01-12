@@ -9,21 +9,23 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg: #0a1f0a;
-            --panel: #1a2e1a;
-            --accent: #4CAF50;
-            --accent-2: #2E7D32;
-            --muted: #a5d6a7;
+            --bg: #1a0000;
+            --panel: #2a0a0a;
+            --accent: #FF0033;
+            --accent-2: #B00020;
+            --muted: #d6a5a5;
             --glass: rgba(255, 255, 255, 0.05);
             --radius: 12px;
             --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
-            --text-primary: #e9f5e9;
-            --text-secondary: #c8e6c9;
+            --text-primary: #f9e9e9;
+            --text-secondary: #e6c8c8;
             --border-radius: 14px;
             --transition: all 0.3s ease;
-            --success: #4CAF50;
-            --warning: #FF9800;
-            --danger: #f44336;
+            --success: #33FF33;
+            --warning: #FF9900;
+            --danger: #ff3333;
+            --blood: #8B0000;
+            --dark-blood: #4a0000;
             --gold: #FFD700;
             --silver: #C0C0C0;
             --bronze: #CD7F32;
@@ -41,9 +43,9 @@
             height: 100%;
             margin: 0;
             background:
-                radial-gradient(circle at 10% 10%, rgba(76, 175, 80, 0.08), transparent 8%),
-                radial-gradient(circle at 90% 90%, rgba(46, 125, 50, 0.05), transparent 8%),
-                var(--bg);
+                radial-gradient(circle at 10% 10%, rgba(255, 0, 51, 0.1), transparent 8%),
+                radial-gradient(circle at 90% 90%, rgba(176, 0, 32, 0.07), transparent 8%),
+                linear-gradient(135deg, var(--bg), #0a0000);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
@@ -68,33 +70,35 @@
             width: 72px;
             height: 72px;
             border-radius: 10px;
-            background: linear-gradient(180deg, #1b5e20, #2e7d32);
+            background: linear-gradient(180deg, var(--blood), var(--accent));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
             font-size: 20px;
             color: #fff;
-            box-shadow: 0 8px 28px rgba(76, 175, 80, 0.15);
+            box-shadow: 0 8px 28px rgba(255, 0, 51, 0.2);
             transition: var(--transition);
         }
 
         .logo:hover {
             transform: scale(1.05);
-            box-shadow: 0 12px 32px rgba(76, 175, 80, 0.25);
+            box-shadow: 0 12px 32px rgba(255, 0, 51, 0.3);
         }
 
         h1 {
             margin: 0;
             font-size: 26px;
-            background: linear-gradient(90deg, #4CAF50, #81C784);
+            background: linear-gradient(90deg, #FF0033, #FF6666);
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .subtitle {
             color: var(--muted);
             margin-top: 6px;
+            font-size: 0.95rem;
         }
 
         .hero {
@@ -106,17 +110,31 @@
         }
 
         .card {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+            background: linear-gradient(180deg, rgba(255, 0, 51, 0.05), transparent);
             border-radius: var(--radius);
             padding: 18px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 40px rgba(139, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 51, 0.1);
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            z-index: 1;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 15px 50px rgba(139, 0, 0, 0.4);
+            border-color: rgba(255, 0, 51, 0.3);
         }
 
         .join-box {
@@ -126,22 +144,24 @@
         }
 
         .ip {
-            background: var(--glass);
+            background: rgba(139, 0, 0, 0.1);
             padding: 12px;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 51, 0.15);
             transition: var(--transition);
         }
 
         .ip:hover {
-            border-color: rgba(76, 175, 80, 0.3);
+            border-color: rgba(255, 0, 51, 0.4);
+            background: rgba(139, 0, 0, 0.15);
         }
 
         .ip strong {
             font-family: var(--mono);
+            color: #ff6666;
         }
 
         .btn {
@@ -152,25 +172,44 @@
             color: white;
             font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.22);
+            box-shadow: 0 12px 30px rgba(255, 0, 51, 0.25);
             display: inline-flex;
             gap: 10px;
             align-items: center;
             transition: var(--transition);
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(30deg);
+            transition: all 0.5s;
+        }
+
+        .btn:hover::after {
+            left: 140%;
         }
 
         .btn.secondary {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 0, 51, 0.3);
             color: var(--muted);
             font-weight: 600;
         }
 
         .btn.secondary:hover {
-            background: rgba(76, 175, 80, 0.1);
+            background: rgba(255, 0, 51, 0.15);
             border-color: var(--accent);
             color: var(--text-primary);
+            box-shadow: 0 8px 20px rgba(255, 0, 51, 0.2);
         }
 
         .btn:active {
@@ -179,7 +218,7 @@
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 15px 35px rgba(255, 0, 51, 0.35);
         }
 
         .join-animated {
@@ -191,7 +230,7 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transform: translateX(-120%);
             animation: shimmer 3s linear infinite;
         }
@@ -216,12 +255,12 @@
 
         .online {
             background: var(--success);
-            box-shadow: 0 8px 22px rgba(46, 213, 115, 0.15);
+            box-shadow: 0 8px 22px rgba(51, 255, 51, 0.25);
         }
 
         .offline {
             background: var(--danger);
-            box-shadow: 0 8px 22px rgba(213, 46, 46, 0.15);
+            box-shadow: 0 8px 22px rgba(255, 51, 51, 0.25);
         }
 
         .stats-container {
@@ -232,18 +271,20 @@
         }
 
         .stat-card {
-            background: var(--glass);
+            background: rgba(139, 0, 0, 0.1);
             padding: 15px;
             border-radius: 10px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 51, 0.15);
             transition: var(--transition);
             animation: fadeIn 1s ease-out;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(76, 175, 80, 0.3);
+            border-color: rgba(255, 0, 51, 0.4);
+            background: rgba(139, 0, 0, 0.15);
+            box-shadow: 0 10px 25px rgba(139, 0, 0, 0.2);
         }
 
         .stat-icon {
@@ -275,7 +316,6 @@
             height: 14px;
             border-radius: 50%;
             margin-right: 8px;
-            background-color: #888;
             box-shadow: 0 0 8px #0002;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -310,7 +350,7 @@
             border: none;
             font-weight: 600;
             color: var(--text-secondary);
-            background: var(--glass);
+            background: rgba(139, 0, 0, 0.1);
             transition: all 0.3s ease;
             cursor: pointer;
             display: flex;
@@ -320,24 +360,27 @@
             flex: 1;
             min-width: 120px;
             justify-content: center;
+            border: 1px solid rgba(255, 0, 51, 0.1);
         }
 
         .tab:hover {
-            background: rgba(76, 175, 80, 0.2);
+            background: rgba(255, 0, 51, 0.2);
             color: white;
+            border-color: rgba(255, 0, 51, 0.3);
         }
 
         .tab.active {
             background: linear-gradient(145deg, var(--accent), var(--accent-2));
             color: white;
-            box-shadow: 0 0 12px rgba(76, 175, 80, 0.5);
+            box-shadow: 0 0 12px rgba(255, 0, 51, 0.6);
+            border-color: rgba(255, 0, 51, 0.4);
         }
 
         .leaderboard-container {
-            background: var(--glass);
+            background: rgba(139, 0, 0, 0.1);
             border-radius: var(--radius);
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 51, 0.15);
             margin-top: 10px;
         }
 
@@ -345,8 +388,8 @@
             display: grid;
             grid-template-columns: 80px 1fr 120px;
             padding: 15px;
-            background: rgba(76, 175, 80, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 0, 51, 0.1);
+            border-bottom: 1px solid rgba(255, 0, 51, 0.2);
             font-weight: 600;
             text-align: center;
         }
@@ -359,7 +402,7 @@
             display: grid;
             grid-template-columns: 80px 1fr 120px;
             padding: 12px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 0, 51, 0.1);
             transition: var(--transition);
             cursor: pointer;
             align-items: center;
@@ -370,9 +413,9 @@
         }
 
         .leaderboard-item:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 0, 51, 0.1);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.2);
         }
 
         .player-rank {
@@ -394,6 +437,7 @@
         .rank-1 .player-name {
             color: var(--gold);
             font-weight: 700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
         }
 
         .rank-2 .player-name {
@@ -418,7 +462,7 @@
             width: 40px;
             height: 40px;
             border-radius: 8px;
-            border: 1px solid rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(255, 0, 51, 0.4);
             object-fit: cover;
             flex-shrink: 0;
         }
@@ -449,16 +493,18 @@
         }
 
         .rule-card {
-            background: var(--glass);
+            background: rgba(139, 0, 0, 0.1);
             border-radius: var(--radius);
             padding: 20px;
             border-left: 4px solid var(--accent);
             transition: var(--transition);
+            border: 1px solid rgba(255, 0, 51, 0.15);
         }
 
         .rule-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px rgba(139, 0, 0, 0.3);
+            border-color: rgba(255, 0, 51, 0.3);
         }
 
         .rule-icon {
@@ -470,6 +516,7 @@
         .rule-title {
             font-size: 1.2rem;
             margin-bottom: 10px;
+            color: var(--text-primary);
         }
 
         /* Footer */
@@ -477,7 +524,7 @@
             margin-top: 40px;
             color: var(--muted);
             font-size: 13px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 0, 51, 0.2);
             padding-top: 20px;
         }
 
@@ -511,22 +558,24 @@
             justify-content: center;
             width: 36px;
             height: 36px;
-            background: var(--glass);
+            background: rgba(139, 0, 0, 0.1);
             border-radius: 50%;
             color: var(--text-primary);
             text-decoration: none;
             transition: var(--transition);
+            border: 1px solid rgba(255, 0, 51, 0.2);
         }
 
         .social-link:hover {
             background: var(--accent);
             transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 0, 51, 0.3);
         }
 
         .footer-bottom {
             text-align: center;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 0, 51, 0.1);
         }
 
         /* Improved Modal Styles */
@@ -536,7 +585,7 @@
             display: none;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(10, 0, 0, 0.9);
             z-index: 1000;
             padding: 20px;
             backdrop-filter: blur(5px);
@@ -557,13 +606,24 @@
             max-width: 900px;
             max-height: 90vh;
             overflow-y: auto;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+            background: linear-gradient(180deg, rgba(255, 0, 51, 0.05), transparent);
             border-radius: 14px;
             padding: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 0, 51, 0.2);
+            box-shadow: 0 24px 70px rgba(139, 0, 0, 0.4);
             position: relative;
             animation: slideUp 0.4s ease-out;
+        }
+
+        .modal .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            z-index: 1;
         }
 
         .modal-header {
@@ -572,13 +632,13 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 0, 51, 0.2);
         }
 
         .modal-title {
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(90deg, #4CAF50, #81C784);
+            background: linear-gradient(90deg, #FF0033, #FF6666);
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -595,7 +655,7 @@
             height: 120px;
             border-radius: 12px;
             overflow: hidden;
-            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+            background: linear-gradient(135deg, var(--blood), var(--accent));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -603,6 +663,7 @@
             font-size: 2.5rem;
             font-weight: bold;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 0, 51, 0.3);
         }
 
         .big-avatar img {
@@ -622,12 +683,13 @@
             font-family: var(--mono);
             font-size: 0.85rem;
             color: var(--muted);
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(139, 0, 0, 0.1);
             padding: 6px 10px;
             border-radius: 6px;
             flex: 1;
             overflow: hidden;
             text-overflow: ellipsis;
+            border: 1px solid rgba(255, 0, 51, 0.1);
         }
 
         .stat-row {
@@ -638,10 +700,10 @@
         }
 
         .badge {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(139, 0, 0, 0.1);
             padding: 12px 10px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 0, 51, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -651,9 +713,10 @@
         }
 
         .badge:hover {
-            background: rgba(76, 175, 80, 0.1);
-            border-color: rgba(76, 175, 80, 0.3);
+            background: rgba(255, 0, 51, 0.15);
+            border-color: rgba(255, 0, 51, 0.4);
             transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(139, 0, 0, 0.2);
         }
 
         .badge strong {
@@ -675,10 +738,10 @@
         }
 
         .stat-item {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(139, 0, 0, 0.1);
             padding: 15px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 51, 0.15);
         }
 
         .stat-item-label {
@@ -714,9 +777,9 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(139, 0, 0, 0.1);
             border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 51, 0.15);
         }
 
         .detailed-stat-label {
@@ -727,6 +790,38 @@
         .detailed-stat-value {
             font-weight: 600;
             color: var(--text-primary);
+        }
+
+        /* Blood drip animation */
+        @keyframes bloodDrip {
+            0% {
+                transform: translateY(-100px) rotate(45deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        .blood-drip {
+            position: fixed;
+            width: 3px;
+            height: 100px;
+            background: linear-gradient(to bottom, var(--accent), var(--blood));
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.1;
+            animation: bloodDrip 15s linear infinite;
         }
 
         /* Animations */
@@ -766,6 +861,25 @@
 
         .count-animation {
             animation: countUp 1s ease-out;
+        }
+
+        /* Pulse animation for important elements */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 0, 51, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 0, 51, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 0, 51, 0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
         /* Responsive Styles */
@@ -962,25 +1076,26 @@
             bottom: 125%;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(26, 0, 0, 0.95);
             color: white;
             padding: 8px 12px;
             border-radius: 6px;
             font-size: 0.8rem;
             white-space: nowrap;
             z-index: 1000;
-            border: 1px solid rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(255, 0, 51, 0.4);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
 
         .player-name-tooltip::after {
+            content: '';
             position: absolute;
             top: 100%;
             left: 50%;
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+            border-color: rgba(26, 0, 0, 0.95) transparent transparent transparent;
         }
 
         .player-name-container:hover .player-name-tooltip {
@@ -993,6 +1108,16 @@
                 padding: 6px 10px;
             }
         }
+
+        /* Add blood-themed cursor effects */
+        body {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23FF0033' d='M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm0 26C9.4 28 4 22.6 4 16S9.4 4 16 4s12 5.4 12 12-5.4 12-12 12z'/%3E%3C/svg%3E") 16 16, auto;
+        }
+
+        a,
+        button {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23FF6666' d='M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm0 26C9.4 28 4 22.6 4 16S9.4 4 16 4s12 5.4 12 12-5.4 12-12 12z'/%3E%3C/svg%3E") 16 16, pointer;
+        }
     </style>
 </head>
 
@@ -1003,8 +1128,8 @@
                 <i class="fas fa-leaf"></i>
             </div>
             <div>
-                <h1>Shanti SMP</h1>
-                <div class="subtitle">Peaceful Survival Minecraft SMP</div>
+                <h1>ZenLife SMP</h1>
+                <div class="subtitle">Lifesteal Survival Minecraft SMP</div>
             </div>
         </header>
 
@@ -1013,9 +1138,9 @@
             <div class="card">
                 <div style="display:flex;justify-content:space-between;align-items:center;">
                     <div>
-                        <h2 style="margin:0">Welcome to Shanti SMP</h2>
+                        <h2 style="margin:0">Welcome to ZenLife SMP</h2>
                         <div style="margin-top:6px;color:var(--muted)">
-                            Peaceful survival — Survive & Play.
+                            Lifesteal survival — Survive & Play.
                         </div>
                     </div>
 
@@ -1034,7 +1159,7 @@
                     <div class="ip">
                         <div>
                             <div style="font-size:13px;color:var(--muted)">Server</div>
-                            <div style="margin-top:6px"><strong id="serverIp">ShantiSmp1.aternos.me:26225</strong>
+                            <div style="margin-top:6px"><strong id="serverIp">zenlife-Smp.aternos.me:35997</strong>
                             </div>
                         </div>
                         <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
@@ -1147,9 +1272,9 @@
         <footer>
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Nepaldmkurl SMP</h3>
-                    <p>Peaceful Survival Minecraft Server</p>
-                    <p>IP: ShantiSmp1.aternos.me:26225</p>
+                    <h3>ZenLife SMP</h3>
+                    <p>Lifesteal Survival Minecraft Server</p>
+                    <p>IP: zenlife-Smp.aternos.me:35997</p>
                     <div class="social-links">
                         <a href="#" class="social-link">
                             <i class="fab fa-discord"></i>
@@ -1183,7 +1308,7 @@
                 </div>
                 <div class="footer-section">
                     <h3>Server Info</h3>
-                    <p><i class="fas fa-code-branch"></i> Version: 1.21.9</p>
+                    <p><i class="fas fa-code-branch"></i> Version: 1.21.10</p>
                     <p><i class="fas fa-shield-alt"></i> Difficulty: Normal</p>
                     <p><i class="fas fa-gamepad"></i> Game Mode: Survival</p>
                     <p><i class="fas fa-border-all"></i> World Border: 60M blocks</p>
@@ -1239,38 +1364,38 @@
     </div>
 
     <script>
-const serverAddress = "ShantiSmp1.aternos.me:26225"; // your server address
-const apiUrl = `https://api.mcsrvstat.us/2/${serverAddress.split(":")[0]}`; 
+        const serverAddress = "zenlife-Smp.aternos.me:35997"; // your server address
+        const apiUrl = `https://api.mcsrvstat.us/2/${serverAddress.split(":")[0]}`;
 
-async function updateServerStatus() {
-    try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
+        async function updateServerStatus() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
 
-        const statusDot = document.getElementById("statusDot");
-        const statusText = document.getElementById("statusText");
-        const playerCount = document.getElementById("playerCount");
+                const statusDot = document.getElementById("statusDot");
+                const statusText = document.getElementById("statusText");
+                const playerCount = document.getElementById("playerCount");
 
-        if (data.online) {
-            statusDot.classList.remove("offline");
-            statusDot.classList.add("online");
-            statusText.textContent = "Online";
-            playerCount.textContent = `${data.players.online} / ${data.players.max}`;
-        } else {
-            statusDot.classList.remove("online");
-            statusDot.classList.add("offline");
-            statusText.textContent = "Offline";
-            playerCount.textContent = "0 / 20";
+                if (data.online) {
+                    statusDot.classList.remove("offline");
+                    statusDot.classList.add("online");
+                    statusText.textContent = "Online";
+                    playerCount.textContent = `${data.players.online} / ${data.players.max}`;
+                } else {
+                    statusDot.classList.remove("online");
+                    statusDot.classList.add("offline");
+                    statusText.textContent = "Offline";
+                    playerCount.textContent = "0 / 20";
+                }
+            } catch (error) {
+                console.error("Error fetching server data:", error);
+            }
         }
-    } catch (error) {
-        console.error("Error fetching server data:", error);
-    }
-}
 
-// check immediately and refresh every 30 seconds
-updateServerStatus();
-setInterval(updateServerStatus, 30000);
-</script>
+        // check immediately and refresh every 30 seconds
+        updateServerStatus();
+        setInterval(updateServerStatus, 30000);
+    </script>
 
 
     <script src="main.js"></script>
